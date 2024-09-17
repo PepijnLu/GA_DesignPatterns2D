@@ -6,4 +6,5 @@ public class Command
 {
     protected Command() {}
     public virtual void Execute(GameObject obj){}
+    public virtual void Undo(){}
 }
