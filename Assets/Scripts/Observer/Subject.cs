@@ -1,51 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Subject
 {
     public static List<Observer> observers = new();
-    protected void AddObserver(Observer observer)
+    protected void AddObserver(Observer _observer)
     {
-        if(!observers.Contains(observer)) observers.Add(observer);
-    }
-
-    protected void RenewList()
-    {
-        foreach(Observer observer in Observer.sharedObservers)
+        if(!observers.Contains(_observer)) 
         {
-            if(!observers.Contains(observer)) observers.Add(observer);
-            //Debug.Log($"Event: {observer} added to list");
+            observers.Add(_observer);
         }
     }
-    protected void RemoveObserver(Observer observer)
+    protected void RemoveObserver(Observer _observer)
     {
-        if(observers.Contains(observer)) observers.Remove(observer);
+        if(observers.Contains(_observer)) 
+        {
+            observers.Remove(_observer);
+        }
     }
 
     protected virtual void Notify(string _myEvent)
     {
-        foreach(Observer observer in observers)
+        foreach(Observer _observer in observers)
         {
-            observer.OnNotify(_myEvent);
+            _observer.OnNotify(_myEvent);
         }
     }
 
-    protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _obj, bool _justCheck)
+    protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction, bool _justCheck)
     {
-        bool moveIsAllowed = false;
-        if(observers.Count != Observer.sharedObservers.Count) 
-        {
-            //Debug.Log("Event: List renewed");
-            RenewList();
-        }
-
-        //Debug.Log($"Event: observer count = {observers.Count}");
+        bool moveIsAllowed;
 
         foreach(Observer observer in observers)
         {
-            moveIsAllowed = observer.OnNotify(_myEvent, _newPosition, _direction, _obj, _justCheck);
+            moveIsAllowed = observer.OnNotify(_myEvent, _newPosition, _direction, _justCheck);
             if(!moveIsAllowed) return false;
         }
         

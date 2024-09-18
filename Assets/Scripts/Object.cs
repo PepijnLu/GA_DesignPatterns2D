@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ObjectType
 {
+    Flag,
+}
+
+public enum ObjectState
+{
     Stop,
     Push,
     You,
-    Null
+    Null,
 }
 public class Object : Observer
 {
 
     [SerializeField] private InputHandler inputHandler;
     public Stack<MoveUnitCommand> usedMoveCommands = new();
-    public ObjectType type;
+    public ObjectState state;
     public bool movedThisTurn;
-
     private int xPos, yPos;
 
     protected override void Start()
@@ -24,18 +28,16 @@ public class Object : Observer
         inputHandler.objectsInScene.Add(this);
         Debug.Log($"{name} added to objects list");
     }
-    public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _obj, bool _justCheck)
+    public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction, bool _justCheck)
     {
-        //Debug.Log("Event: event called");
         switch(_myEvent)
         {
             case "ObjectMoved":
-                //Debug.Log($"Event: {name} got notified");
                 xPos = (int)transform.position.x;
                 yPos = (int)transform.position.y;
                 if((_newPosition.x == xPos) && (_newPosition.y == yPos)) 
                 {
-                    return HandleCollision(_direction, _obj);
+                    return HandleCollision(_direction);
                 }
             break;
         }
@@ -43,18 +45,18 @@ public class Object : Observer
         return true;
     }
 
-    bool HandleCollision(Vector2 _direction, Object _obj)
+    bool HandleCollision(Vector2 _direction)
     {
-        if(type == ObjectType.Push) 
+        if(state == ObjectState.Push) 
         {
             if (GetPushed(_direction, false)) return true;
             else return false;
         }
-        else if (type == ObjectType.Stop)
+        else if (state == ObjectState.Stop)
         {
             return false;
         }
-        else if (type == ObjectType.You)
+        else if (state == ObjectState.You)
         {
             //Check if the player object can move
             if (GetPushed(_direction, true)) return true;
@@ -63,9 +65,9 @@ public class Object : Observer
         return true;
     }
 
-    private bool GetPushed(Vector2 _direction, bool justCheck)
+    private bool GetPushed(Vector2 _direction, bool _justCheck)
     {
-        MoveUnitCommand newMoveCommand = new MoveUnitCommand(_direction, false, justCheck);
+        MoveUnitCommand newMoveCommand = new MoveUnitCommand(_direction, _justCheck);
         if(inputHandler.ActivateCommand(newMoveCommand, this))
         {
             movedThisTurn = true;
@@ -76,7 +78,7 @@ public class Object : Observer
 
     public void FillEmptyMove()
     {
-        MoveUnitCommand newMoveCommand = new MoveUnitCommand(new Vector2(0, 0), false, false);
+        MoveUnitCommand newMoveCommand = new MoveUnitCommand(new Vector2(0, 0), false);
         usedMoveCommands.Push(newMoveCommand);
         Debug.Log($"Stack Add {name}: [{newMoveCommand.direction.x} , {newMoveCommand.direction.y}]");
     }

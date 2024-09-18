@@ -1,61 +1,62 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class NullCommand : Command
 {
-    public override bool Execute(Object obj, bool isUndo) {return true;}
+    public override bool Execute(Object _obj, bool _isUndo) {return true;}
 }
 
 public class MoveUnitCommand : Command
 {
     public Vector2 direction;
     public bool justCheck;
-    private bool movementAllowed, playerActivated;
-    public MoveUnitCommand(Vector2 _direction, bool _playerActivated, bool _justCheck) : base() 
+
+    public MoveUnitCommand(Vector2 _direction, bool _justCheck) : base() 
     {
         direction = new Vector2(_direction.x, _direction.y);
-
-        movementAllowed = true;
-
-        playerActivated = _playerActivated;
         justCheck = _justCheck;
     }
-
-    public override bool IsExecutable(Object obj)
-    {
-        //Check if the movement is allowed
-        //...
-
-        //For now return true
-        return true;
-    }
+    
     public override bool Execute(Object _obj, bool _isUndo)
     {   
         bool moveIsAllowed = true;
-        if(movementAllowed /*&& playerActivated*/)
+
+        Vector2 currentPosition = _obj.transform.position;
+        Vector2 newPosition = currentPosition + direction;
+
+        if(moveIsAllowed && !_isUndo) 
         {
-            executed = true;
-
-            Vector2 currentPosition = _obj.transform.position;
-            Vector2 newPosition = currentPosition + direction;
-
-            if(!_isUndo) 
-            {
-                if(moveIsAllowed) moveIsAllowed = Notify("ObjectMoved", newPosition, direction, _obj, justCheck);
-            }
-
-            if(moveIsAllowed && !justCheck) _obj.transform.position = newPosition;
+            moveIsAllowed = Notify("ObjectMoved", newPosition, direction, justCheck);
         }
+
+        if(moveIsAllowed && !justCheck) 
+        {
+            _obj.transform.position = newPosition;
+        }
+        
         return moveIsAllowed;
     }
 
-    public override void Undo(Object obj)
+    public override void Undo(Object _obj)
     {
         direction.x *= -1;
         direction.y *= -1;
-        Execute(obj, true);
+        Execute(_obj, true);
+    }
+}
+
+public class UndoCommand : Command
+{
+    public UndoCommand(List<Object> _objectsInScene) : base()
+    {
+        foreach(Object _obj in _objectsInScene)
+        {
+            if(_obj.usedMoveCommands.Count > 0) 
+            {
+                _obj.usedMoveCommands.Pop().Undo(_obj);
+            }
+            else Debug.Log($"{_obj.name} has nothing to undo");
+        }
     }
 }
