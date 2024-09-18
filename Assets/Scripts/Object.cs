@@ -5,7 +5,8 @@ public enum ObjectType
 {
     Stop,
     Push,
-    You
+    You,
+    Null
 }
 public class Object : Observer
 {
@@ -55,7 +56,9 @@ public class Object : Observer
         }
         else if (type == ObjectType.You)
         {
-            return false;
+            if(_otherType == ObjectType.You) return false;
+            //else if(_otherType != ObjectType.Stop) return true;
+            else return false;
         }
         return true;
     }
