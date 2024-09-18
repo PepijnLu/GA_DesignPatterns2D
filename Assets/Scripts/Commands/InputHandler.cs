@@ -46,7 +46,7 @@ public class InputHandler : MonoBehaviour
                         ActivateCommand(newCommand, _player);
                     } 
                 }
-                //StartCoroutine(IEFillEmptyMoves());  
+
                 FillEmptyMoves();
             }
         }
@@ -61,14 +61,9 @@ public class InputHandler : MonoBehaviour
 
     public void ActivateCommand(Command command, Object objToMove)
     { 
-        //If it's a move command, that means a player moved
-        if(command is MoveUnitCommand moveCommand)
-        {
-            //For every moving object, add the move command to it's stack
-            objToMove.usedMoveCommands.Push(moveCommand);
-            Debug.Log($"Stack: [{moveCommand.direction.x} , {moveCommand.direction.y}] added to {objToMove.name}'s stack");
-        }
-
+        //Push the command to the object's stack
+        objToMove.usedMoveCommands.Push(command as MoveUnitCommand);
+        
         //Run the command if its executable
         command.Execute(objToMove, false);
     }
@@ -92,24 +87,12 @@ public class InputHandler : MonoBehaviour
         {
             if(obj.usedMoveCommands.Count > 0) 
             {
-                Debug.Log($"Stack undo: [{obj.usedMoveCommands.Peek().direction.x} , {obj.usedMoveCommands.Peek().direction.y}] undo'd from {obj.name}'s stack");
+                //Debug.Log($"Stack undo: [{obj.usedMoveCommands.Peek().direction.x} , {obj.usedMoveCommands.Peek().direction.y}] undo'd from {obj.name}'s stack");
                 obj.usedMoveCommands.Pop().Undo(obj);
             }
             else Debug.Log($"{obj.name} has nothing to undo");
         }
     }
-
-    public IEnumerator IEFillEmptyMoves()
-    {
-        yield return new WaitForSeconds(0.2f);
-        foreach(Object obj in objectsInScene)
-        {
-            if(!obj.movedThisTurn && !playerObjects.Contains(obj)) obj.FillEmptyMove();
-            obj.movedThisTurn = false;
-        }
-        ableToMove = true;
-    }
-
     public void FillEmptyMoves()
     {
         foreach(Object obj in objectsInScene)

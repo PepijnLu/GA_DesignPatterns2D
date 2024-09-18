@@ -48,10 +48,8 @@ public class MoveUnitCommand : Command
 
     public override void Undo(Object obj)
     {
-        Debug.Log($"Direction of {obj.name}: {direction.x} , {direction.y}");
-        /*if (direction.x > 0)*/ direction.x *= -1;
-        /*if (direction.y > 0)*/ direction.y *= -1;
-        Debug.Log($"Direction of {obj.name} after *-1: {direction.x} , {direction.y}");
+        direction.x *= -1;
+        direction.y *= -1;
         Execute(obj, true);
     }
 }

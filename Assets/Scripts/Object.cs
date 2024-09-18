@@ -38,19 +38,14 @@ public class Object : Observer
     private void GetPushed(Vector2 _direction)
     {
         MoveUnitCommand newMoveCommand = new MoveUnitCommand(_direction, false);
-        //usedMoveCommands.Push(newMoveCommand);
-
-        if(_direction.x != 0 || _direction.y != 0) 
-        {
-            inputHandler.ActivateCommand(newMoveCommand, this);
-            movedThisTurn = true;
-        }
+        inputHandler.ActivateCommand(newMoveCommand, this);
+        movedThisTurn = true;
     }
 
     public void FillEmptyMove()
     {
         MoveUnitCommand newMoveCommand = new MoveUnitCommand(new Vector2(0, 0), false);
         usedMoveCommands.Push(newMoveCommand);
-        Debug.Log($"Stack undo: [{newMoveCommand.direction.x} , {newMoveCommand.direction.y}] undo'd from {name}'s stack");
+        //Debug.Log($"Stack undo: [{newMoveCommand.direction.x} , {newMoveCommand.direction.y}] undo'd from {name}'s stack");
     }
 }
