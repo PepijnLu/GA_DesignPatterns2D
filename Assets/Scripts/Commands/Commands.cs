@@ -6,39 +6,59 @@ using UnityEngine;
 
 public class NullCommand : Command
 {
-    public override void Execute(GameObject obj) {Debug.Log($"{obj.name}: null command");}
+    public override void Execute(Object obj) {Debug.Log($"{obj.name}: null command");}
 }
 
 public class MoveUnitCommand : Command
 {
-    int xMovement, yMovement;
-    int xBefore, yBefore;
-    GameObject movedObj;
-    public MoveUnitCommand(int _x, int _y) : base() 
+    public Vector2 direction;
+    //public bool playerActivated;
+    private bool movementAllowed;
+    public MoveUnitCommand(Vector2 _direction, bool _playerActivated) : base() 
     {
-        xMovement = _x;
-        yMovement = _y;
-    }
-    public override void Execute(GameObject obj)
-    {
-        // xBefore = (int)obj.transform.position.x;
-        // yBefore = (int)obj.transform.position.y;
-        movedObj = obj;
-        obj.transform.position += new Vector3(xMovement, yMovement, 0);
-        Debug.Log($"Moved Unit from x: {xBefore}, y: {yBefore} to x: {obj.transform.position.x}, y: {obj.transform.position.y}");
+        direction = new Vector2(_direction.x, _direction.y);
+
+        movementAllowed = true;
+
+        //playerActivated = _playerActivated;
     }
 
-    public override void Undo()
+    public override bool IsExecutable(Object obj)
     {
-        xMovement = -xMovement;
-        yMovement = -yMovement;
-        Execute(movedObj);
+        //Check if the movement is allowed
+        //...
+
+        //For now return true
+        return true;
+    }
+    public override void Execute(Object obj)
+    {   
+        if(movementAllowed /*&& playerActivated*/)
+        {
+            executed = true;
+
+            Vector2 currentPosition = obj.transform.position;
+            Vector2 newPosition = currentPosition + direction;
+
+            Notify("ObjectMoved", newPosition, direction);
+
+            obj.transform.position = newPosition;
+        }
+    }
+
+    public override void Undo(Object obj)
+    {
+        Debug.Log($"Direction of {obj.name}: {direction.x} , {direction.y}");
+        direction.x *= -1;
+        direction.y *= -1;
+        Debug.Log($"Direction of {obj.name} after *-1: {direction.x} , {direction.y}");
+        Execute(obj);
     }
 }
 
 public class QCommand : Command
 {
-    public override void Execute(GameObject obj)
+    public override void Execute(Object obj)
     {
         Debug.Log($"{obj.name}: Pressed Q");
     }
@@ -46,7 +66,7 @@ public class QCommand : Command
 
 public class WCommand : Command
 {
-    public override void Execute(GameObject obj)
+    public override void Execute(Object obj)
     {
         Debug.Log($"{obj.name}: Pressed W");
     }
@@ -54,7 +74,7 @@ public class WCommand : Command
 
 public class ECommand : Command
 {
-    public override void Execute(GameObject obj)
+    public override void Execute(Object obj)
     {
         Debug.Log($"{obj.name}: Pressed E");
     }
@@ -62,7 +82,7 @@ public class ECommand : Command
 
 public class RCommand : Command
 {
-    public override void Execute(GameObject obj)
+    public override void Execute(Object obj)
     {
         Debug.Log($"{obj.name}: Pressed R");
     }
