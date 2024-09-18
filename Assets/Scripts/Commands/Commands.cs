@@ -35,14 +35,18 @@ public class MoveUnitCommand : Command
     {   
         if(movementAllowed /*&& playerActivated*/)
         {
+            bool moveIsAllowed = true;
             executed = true;
 
             Vector2 currentPosition = obj.transform.position;
             Vector2 newPosition = currentPosition + direction;
 
-            if(!isUndo) Notify("ObjectMoved", newPosition, direction);
+            if(!isUndo) 
+            {
+                if(moveIsAllowed) moveIsAllowed = Notify("ObjectMoved", newPosition, direction);
+            }
 
-            obj.transform.position = newPosition;
+            if(moveIsAllowed) obj.transform.position = newPosition;
         }
     }
 

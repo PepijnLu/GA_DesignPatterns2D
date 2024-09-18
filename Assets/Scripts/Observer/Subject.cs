@@ -32,8 +32,9 @@ public class Subject
         }
     }
 
-    protected virtual void Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction)
+    protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction)
     {
+        bool moveIsAllowed = false;
         if(observers.Count != Observer.sharedObservers.Count) 
         {
             //Debug.Log("Event: List renewed");
@@ -44,8 +45,10 @@ public class Subject
 
         foreach(Observer observer in observers)
         {
-            observer.OnNotify(_myEvent, _newPosition, _direction);
+            moveIsAllowed = observer.OnNotify(_myEvent, _newPosition, _direction);
+            if(!moveIsAllowed) return false;
         }
         
+        return true;
     }
 }

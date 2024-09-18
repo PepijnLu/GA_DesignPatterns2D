@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum ObjectType
+{
+    Stop,
+    Push
+}
 public class Object : Observer
 {
+
     [SerializeField] private InputHandler inputHandler;
     public Stack<MoveUnitCommand> usedMoveCommands = new();
+    public ObjectType type;
     public bool movedThisTurn;
 
     private int xPos, yPos;
@@ -16,7 +22,7 @@ public class Object : Observer
         inputHandler.objectsInScene.Add(this);
         Debug.Log($"{name} added to objects list");
     }
-    public override void OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction)
+    public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction)
     {
         //Debug.Log("Event: event called");
         switch(_myEvent)
@@ -27,12 +33,30 @@ public class Object : Observer
                     //Debug.Log($"Event: {name} got notified");
                     xPos = (int)transform.position.x;
                     yPos = (int)transform.position.y;
-
-                    if((_newPosition.x == xPos) && (_newPosition.y == yPos)) GetPushed(_direction);
+                    if((_newPosition.x == xPos) && (_newPosition.y == yPos)) 
+                    {
+                        return HandleCollision(_direction);
+                    }
                     //else GetPushed(new Vector2(0, 0));
                 }
             break;
         }
+
+        return true;
+    }
+
+    bool HandleCollision(Vector2 _direction)
+    {
+        if(type == ObjectType.Push) 
+        {
+            GetPushed(_direction);
+            return true;
+        }
+        else if (type == ObjectType.Stop)
+        {
+            return false;
+        }
+        return true;
     }
 
     private void GetPushed(Vector2 _direction)

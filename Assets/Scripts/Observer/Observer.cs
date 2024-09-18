@@ -10,5 +10,5 @@ public class Observer : MonoBehaviour
         sharedObservers.Add(this);
     }
     virtual public void OnNotify(string _myEvent) {}
-    virtual public void OnNotify(string _myEvent, Vector2 newPosition, Vector2 _direction) {}
+    virtual public bool OnNotify(string _myEvent, Vector2 newPosition, Vector2 _direction) {return true;}
 }
