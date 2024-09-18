@@ -24,7 +24,7 @@ public class Object : Observer
         inputHandler.objectsInScene.Add(this);
         Debug.Log($"{name} added to objects list");
     }
-    public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction, ObjectType _otherType)
+    public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _obj, bool _justCheck)
     {
         //Debug.Log("Event: event called");
         switch(_myEvent)
@@ -35,7 +35,7 @@ public class Object : Observer
                 yPos = (int)transform.position.y;
                 if((_newPosition.x == xPos) && (_newPosition.y == yPos)) 
                 {
-                    return HandleCollision(_direction, _otherType);
+                    return HandleCollision(_direction, _obj);
                 }
             break;
         }
@@ -43,11 +43,11 @@ public class Object : Observer
         return true;
     }
 
-    bool HandleCollision(Vector2 _direction, ObjectType _otherType)
+    bool HandleCollision(Vector2 _direction, Object _obj)
     {
         if(type == ObjectType.Push) 
         {
-            if (GetPushed(_direction)) return true;
+            if (GetPushed(_direction, false)) return true;
             else return false;
         }
         else if (type == ObjectType.Stop)
@@ -56,16 +56,16 @@ public class Object : Observer
         }
         else if (type == ObjectType.You)
         {
-            if(_otherType == ObjectType.You) return false;
-            //else if(_otherType != ObjectType.Stop) return true;
-            else return false;
+            //Check if the player object can move
+            if (GetPushed(_direction, true)) return true;
+            return false;
         }
         return true;
     }
 
-    private bool GetPushed(Vector2 _direction)
+    private bool GetPushed(Vector2 _direction, bool justCheck)
     {
-        MoveUnitCommand newMoveCommand = new MoveUnitCommand(_direction, false);
+        MoveUnitCommand newMoveCommand = new MoveUnitCommand(_direction, false, justCheck);
         if(inputHandler.ActivateCommand(newMoveCommand, this))
         {
             movedThisTurn = true;
@@ -76,7 +76,7 @@ public class Object : Observer
 
     public void FillEmptyMove()
     {
-        MoveUnitCommand newMoveCommand = new MoveUnitCommand(new Vector2(0, 0), false);
+        MoveUnitCommand newMoveCommand = new MoveUnitCommand(new Vector2(0, 0), false, false);
         usedMoveCommands.Push(newMoveCommand);
         Debug.Log($"Stack Add {name}: [{newMoveCommand.direction.x} , {newMoveCommand.direction.y}]");
     }

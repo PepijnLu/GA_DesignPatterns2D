@@ -43,7 +43,7 @@ public class InputHandler : MonoBehaviour
                 {
                     if(_pressedButton is MoveUnitCommand moveCommand)
                     {
-                        Command newCommand = new MoveUnitCommand(moveCommand.direction, false);
+                        Command newCommand = new MoveUnitCommand(moveCommand.direction, false, false);
                         if (!canExecute) canExecute = ActivateCommand(newCommand, _player);
                         else ActivateCommand(newCommand, _player);
                     } 
@@ -79,10 +79,13 @@ public class InputHandler : MonoBehaviour
         if(command.Execute(objToMove, false)) 
         {
             //Push the command to the object's stack
-            objToMove.usedMoveCommands.Push(command as MoveUnitCommand);
-            objToMove.movedThisTurn = true;
-            Debug.Log($"Stack Add {objToMove.name}: [{objToMove.usedMoveCommands.Peek().direction.x} , {objToMove.usedMoveCommands.Peek().direction.y}]");
-            return true;
+            if(command is MoveUnitCommand moveCommand)
+            {
+                if(!moveCommand.justCheck) objToMove.usedMoveCommands.Push(command as MoveUnitCommand);
+                objToMove.movedThisTurn = true;
+                Debug.Log($"Stack Add {objToMove.name}: [{objToMove.usedMoveCommands.Peek().direction.x} , {objToMove.usedMoveCommands.Peek().direction.y}]");
+                return true;
+            }
         }   
         return false;
     }
@@ -91,10 +94,10 @@ public class InputHandler : MonoBehaviour
     {
         if(ableToMove)
         {
-            if(Input.GetKeyDown(KeyCode.UpArrow)) return new MoveUnitCommand(new Vector2(0, 1), true);
-            if(Input.GetKeyDown(KeyCode.DownArrow)) return new MoveUnitCommand(new Vector2(0, -1), true);
-            if(Input.GetKeyDown(KeyCode.LeftArrow)) return new MoveUnitCommand(new Vector2(-1, 0), true);
-            if(Input.GetKeyDown(KeyCode.RightArrow)) return new MoveUnitCommand(new Vector2(1, 0), true);
+            if(Input.GetKeyDown(KeyCode.UpArrow)) return new MoveUnitCommand(new Vector2(0, 1), true, false);
+            if(Input.GetKeyDown(KeyCode.DownArrow)) return new MoveUnitCommand(new Vector2(0, -1), true, false);
+            if(Input.GetKeyDown(KeyCode.LeftArrow)) return new MoveUnitCommand(new Vector2(-1, 0), true, false);
+            if(Input.GetKeyDown(KeyCode.RightArrow)) return new MoveUnitCommand(new Vector2(1, 0), true, false);
         }
 
         return null;

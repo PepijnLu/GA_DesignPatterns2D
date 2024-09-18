@@ -12,15 +12,16 @@ public class NullCommand : Command
 public class MoveUnitCommand : Command
 {
     public Vector2 direction;
-    //public bool playerActivated;
+    public bool justCheck;
     private bool movementAllowed, playerActivated;
-    public MoveUnitCommand(Vector2 _direction, bool _playerActivated) : base() 
+    public MoveUnitCommand(Vector2 _direction, bool _playerActivated, bool _justCheck) : base() 
     {
         direction = new Vector2(_direction.x, _direction.y);
 
         movementAllowed = true;
 
         playerActivated = _playerActivated;
+        justCheck = _justCheck;
     }
 
     public override bool IsExecutable(Object obj)
@@ -31,22 +32,22 @@ public class MoveUnitCommand : Command
         //For now return true
         return true;
     }
-    public override bool Execute(Object obj, bool isUndo)
+    public override bool Execute(Object _obj, bool _isUndo)
     {   
         bool moveIsAllowed = true;
         if(movementAllowed /*&& playerActivated*/)
         {
             executed = true;
 
-            Vector2 currentPosition = obj.transform.position;
+            Vector2 currentPosition = _obj.transform.position;
             Vector2 newPosition = currentPosition + direction;
 
-            if(!isUndo) 
+            if(!_isUndo) 
             {
-                if(moveIsAllowed) moveIsAllowed = Notify("ObjectMoved", newPosition, direction, obj.type);
+                if(moveIsAllowed) moveIsAllowed = Notify("ObjectMoved", newPosition, direction, _obj, justCheck);
             }
 
-            if(moveIsAllowed) obj.transform.position = newPosition;
+            if(moveIsAllowed && !justCheck) _obj.transform.position = newPosition;
         }
         return moveIsAllowed;
     }

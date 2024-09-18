@@ -32,7 +32,7 @@ public class Subject
         }
     }
 
-    protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction, ObjectType _objectType)
+    protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _obj, bool _justCheck)
     {
         bool moveIsAllowed = false;
         if(observers.Count != Observer.sharedObservers.Count) 
@@ -45,7 +45,7 @@ public class Subject
 
         foreach(Observer observer in observers)
         {
-            moveIsAllowed = observer.OnNotify(_myEvent, _newPosition, _direction, _objectType);
+            moveIsAllowed = observer.OnNotify(_myEvent, _newPosition, _direction, _obj, _justCheck);
             if(!moveIsAllowed) return false;
         }
         
