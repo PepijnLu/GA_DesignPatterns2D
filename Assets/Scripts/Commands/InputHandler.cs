@@ -37,14 +37,25 @@ public class InputHandler : MonoBehaviour
 
             if(canExecute) 
             {
+                canExecute = false;
                 ableToMove = false;
                 foreach(Object _player in playerObjects) 
                 {
                     if(_pressedButton is MoveUnitCommand moveCommand)
                     {
                         Command newCommand = new MoveUnitCommand(moveCommand.direction, false);
-                        ActivateCommand(newCommand, _player);
+                        if (!canExecute) canExecute = ActivateCommand(newCommand, _player);
+                        else ActivateCommand(newCommand, _player);
                     } 
+                }
+
+                if(!canExecute)
+                {
+                    foreach(Object obj in objectsInScene)
+                    {
+                        obj.movedThisTurn = true;
+                    }
+                    Debug.Log("No move happened");
                 }
 
                 FillEmptyMoves();
@@ -56,16 +67,24 @@ public class InputHandler : MonoBehaviour
     {
         //Check if the command is executable
         if(command.IsExecutable(objToMove)) return true;
-        else return false;
+        else 
+        {
+            return false;
+        }
     }
 
-    public void ActivateCommand(Command command, Object objToMove)
-    { 
-        //Push the command to the object's stack
-        objToMove.usedMoveCommands.Push(command as MoveUnitCommand);
-        
+    public bool ActivateCommand(Command command, Object objToMove)
+    {         
         //Run the command if its executable
-        command.Execute(objToMove, false);
+        if(command.Execute(objToMove, false)) 
+        {
+            //Push the command to the object's stack
+            objToMove.usedMoveCommands.Push(command as MoveUnitCommand);
+            objToMove.movedThisTurn = true;
+            Debug.Log($"Stack Add {objToMove.name}: [{objToMove.usedMoveCommands.Peek().direction.x} , {objToMove.usedMoveCommands.Peek().direction.y}]");
+            return true;
+        }   
+        return false;
     }
 
     private Command HandleInput()
@@ -97,7 +116,7 @@ public class InputHandler : MonoBehaviour
     {
         foreach(Object obj in objectsInScene)
         {
-            if(!obj.movedThisTurn && !playerObjects.Contains(obj)) obj.FillEmptyMove();
+            if(!obj.movedThisTurn) obj.FillEmptyMove();
             obj.movedThisTurn = false;
         }
         ableToMove = true;

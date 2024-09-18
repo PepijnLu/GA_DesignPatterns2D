@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class NullCommand : Command
 {
-    public override void Execute(Object obj, bool isUndo) {Debug.Log($"{obj.name}: null command");}
+    public override bool Execute(Object obj, bool isUndo) {return true;}
 }
 
 public class MoveUnitCommand : Command
@@ -31,11 +31,11 @@ public class MoveUnitCommand : Command
         //For now return true
         return true;
     }
-    public override void Execute(Object obj, bool isUndo)
+    public override bool Execute(Object obj, bool isUndo)
     {   
+        bool moveIsAllowed = true;
         if(movementAllowed /*&& playerActivated*/)
         {
-            bool moveIsAllowed = true;
             executed = true;
 
             Vector2 currentPosition = obj.transform.position;
@@ -43,11 +43,12 @@ public class MoveUnitCommand : Command
 
             if(!isUndo) 
             {
-                if(moveIsAllowed) moveIsAllowed = Notify("ObjectMoved", newPosition, direction);
+                if(moveIsAllowed) moveIsAllowed = Notify("ObjectMoved", newPosition, direction, obj.type);
             }
 
             if(moveIsAllowed) obj.transform.position = newPosition;
         }
+        return moveIsAllowed;
     }
 
     public override void Undo(Object obj)

@@ -4,7 +4,8 @@ using UnityEngine;
 public enum ObjectType
 {
     Stop,
-    Push
+    Push,
+    You
 }
 public class Object : Observer
 {
@@ -22,22 +23,18 @@ public class Object : Observer
         inputHandler.objectsInScene.Add(this);
         Debug.Log($"{name} added to objects list");
     }
-    public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction)
+    public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction, ObjectType _otherType)
     {
         //Debug.Log("Event: event called");
         switch(_myEvent)
         {
             case "ObjectMoved":
-                if(!inputHandler.playerObjects.Contains(this))
+                //Debug.Log($"Event: {name} got notified");
+                xPos = (int)transform.position.x;
+                yPos = (int)transform.position.y;
+                if((_newPosition.x == xPos) && (_newPosition.y == yPos)) 
                 {
-                    //Debug.Log($"Event: {name} got notified");
-                    xPos = (int)transform.position.x;
-                    yPos = (int)transform.position.y;
-                    if((_newPosition.x == xPos) && (_newPosition.y == yPos)) 
-                    {
-                        return HandleCollision(_direction);
-                    }
-                    //else GetPushed(new Vector2(0, 0));
+                    return HandleCollision(_direction, _otherType);
                 }
             break;
         }
@@ -45,31 +42,39 @@ public class Object : Observer
         return true;
     }
 
-    bool HandleCollision(Vector2 _direction)
+    bool HandleCollision(Vector2 _direction, ObjectType _otherType)
     {
         if(type == ObjectType.Push) 
         {
-            GetPushed(_direction);
-            return true;
+            if (GetPushed(_direction)) return true;
+            else return false;
         }
         else if (type == ObjectType.Stop)
+        {
+            return false;
+        }
+        else if (type == ObjectType.You)
         {
             return false;
         }
         return true;
     }
 
-    private void GetPushed(Vector2 _direction)
+    private bool GetPushed(Vector2 _direction)
     {
         MoveUnitCommand newMoveCommand = new MoveUnitCommand(_direction, false);
-        inputHandler.ActivateCommand(newMoveCommand, this);
-        movedThisTurn = true;
+        if(inputHandler.ActivateCommand(newMoveCommand, this))
+        {
+            movedThisTurn = true;
+            return true;
+        }
+        return false;
     }
 
     public void FillEmptyMove()
     {
         MoveUnitCommand newMoveCommand = new MoveUnitCommand(new Vector2(0, 0), false);
         usedMoveCommands.Push(newMoveCommand);
-        //Debug.Log($"Stack undo: [{newMoveCommand.direction.x} , {newMoveCommand.direction.y}] undo'd from {name}'s stack");
+        Debug.Log($"Stack Add {name}: [{newMoveCommand.direction.x} , {newMoveCommand.direction.y}]");
     }
 }
