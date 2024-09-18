@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
     public List<Object> playerObjects, objectsInScene;
     private bool ableToMove;
-    public Command debug_Q = new QCommand();
-    public Command debug_W = new WCommand(); 
-    public Command debug_E = new ECommand(); 
-    public Command debug_R = new RCommand();
 
     private void Start()
     {
@@ -27,24 +24,30 @@ public class InputHandler : MonoBehaviour
     {
         if(_pressedButton != null)
         {
-            bool canMoveSomething = false;
+            bool canExecute = false;
 
             foreach(Object _player in playerObjects) 
             {
-                if(!canMoveSomething) 
+                if(!canExecute) 
                 {
-                    canMoveSomething = CheckIfExecutable(_pressedButton, _player);
+                    canExecute = CheckIfExecutable(_pressedButton, _player);
                     break;
                 }
             }
-            
-            if(canMoveSomething) 
+
+            if(canExecute) 
             {
+                ableToMove = false;
                 foreach(Object _player in playerObjects) 
                 {
-                    Command newCommand = _pressedButton;
-                    ActivateCommand(newCommand, _player);
+                    if(_pressedButton is MoveUnitCommand moveCommand)
+                    {
+                        Command newCommand = new MoveUnitCommand(moveCommand.direction, false);
+                        ActivateCommand(newCommand, _player);
+                    } 
                 }
+                //StartCoroutine(IEFillEmptyMoves());  
+                FillEmptyMoves();
             }
         }
     }
@@ -58,25 +61,20 @@ public class InputHandler : MonoBehaviour
 
     public void ActivateCommand(Command command, Object objToMove)
     { 
-        //Run the command if its executable
-        command.Execute(objToMove);
-
         //If it's a move command, that means a player moved
         if(command is MoveUnitCommand moveCommand)
         {
-            //For every object, add the move command to it's stack
+            //For every moving object, add the move command to it's stack
             objToMove.usedMoveCommands.Push(moveCommand);
             Debug.Log($"Stack: [{moveCommand.direction.x} , {moveCommand.direction.y}] added to {objToMove.name}'s stack");
-        }  
+        }
+
+        //Run the command if its executable
+        command.Execute(objToMove, false);
     }
 
     private Command HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) return debug_Q;
-        if (Input.GetKeyDown(KeyCode.W)) return debug_W;
-        if (Input.GetKeyDown(KeyCode.E)) return debug_E;
-        if (Input.GetKeyDown(KeyCode.R)) return debug_R;
-
         if(ableToMove)
         {
             if(Input.GetKeyDown(KeyCode.UpArrow)) return new MoveUnitCommand(new Vector2(0, 1), true);
@@ -90,34 +88,36 @@ public class InputHandler : MonoBehaviour
 
     private void InputUndo()
     {
-        // foreach(Object obj in objectsInScene)
-        // {
-        //     if(obj.usedMoveCommands.Count > 0) 
-        //     {
-        //         Debug.Log($"Stack undo: [{obj.usedMoveCommands.Peek().direction.x} , {obj.usedMoveCommands.Peek().direction.y}] undo'd from {obj.name}'s stack");
-        //         obj.usedMoveCommands.Pop().Undo(obj);
-        //     }
-        //     else Debug.Log($"{obj.name} has nothing to undo");
-        // }
-
-        // Object object1 = objectsInScene[0];
-        // Object object2 = objectsInScene[1];
-        // Object object3 = objectsInScene[2];
-        // Object object4 = objectsInScene[3];
-
-        // if(object1.usedMoveCommands.Count > 0)object1.usedMoveCommands.Pop().Undo(object1);
-        // if(object2.usedMoveCommands.Count > 0)object2.usedMoveCommands.Pop().Undo(object2);
-        // if(object3.usedMoveCommands.Count > 0)object3.usedMoveCommands.Pop().Undo(object3);
-        // if(object4.usedMoveCommands.Count > 0)object4.usedMoveCommands.Pop().Undo(object4);
-
-
-        // for(int i = 0; i < objectsInScene.Count; i++)
-        // {
-        //     if(objectsInScene[i].usedMoveCommands.Count > 0)
-        //     { 
-        //         Debug.Log("Undo: " + objectsInScene[i].name + " of " + objectsInScene.Count);
-        //         objectsInScene[i].usedMoveCommands.Pop().Undo(objectsInScene[i]);
-        //     }
-        // }
+        foreach(Object obj in objectsInScene)
+        {
+            if(obj.usedMoveCommands.Count > 0) 
+            {
+                Debug.Log($"Stack undo: [{obj.usedMoveCommands.Peek().direction.x} , {obj.usedMoveCommands.Peek().direction.y}] undo'd from {obj.name}'s stack");
+                obj.usedMoveCommands.Pop().Undo(obj);
+            }
+            else Debug.Log($"{obj.name} has nothing to undo");
+        }
     }
+
+    public IEnumerator IEFillEmptyMoves()
+    {
+        yield return new WaitForSeconds(0.2f);
+        foreach(Object obj in objectsInScene)
+        {
+            if(!obj.movedThisTurn && !playerObjects.Contains(obj)) obj.FillEmptyMove();
+            obj.movedThisTurn = false;
+        }
+        ableToMove = true;
+    }
+
+    public void FillEmptyMoves()
+    {
+        foreach(Object obj in objectsInScene)
+        {
+            if(!obj.movedThisTurn && !playerObjects.Contains(obj)) obj.FillEmptyMove();
+            obj.movedThisTurn = false;
+        }
+        ableToMove = true;
+    }
+    
 }

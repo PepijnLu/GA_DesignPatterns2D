@@ -6,6 +6,7 @@ public class Object : Observer
 {
     [SerializeField] private InputHandler inputHandler;
     public Stack<MoveUnitCommand> usedMoveCommands = new();
+    public bool movedThisTurn;
 
     private int xPos, yPos;
 
@@ -28,7 +29,7 @@ public class Object : Observer
                     yPos = (int)transform.position.y;
 
                     if((_newPosition.x == xPos) && (_newPosition.y == yPos)) GetPushed(_direction);
-                    else GetPushed(new Vector2(0, 0));
+                    //else GetPushed(new Vector2(0, 0));
                 }
             break;
         }
@@ -39,6 +40,17 @@ public class Object : Observer
         MoveUnitCommand newMoveCommand = new MoveUnitCommand(_direction, false);
         //usedMoveCommands.Push(newMoveCommand);
 
-        if(_direction.x != 0 || _direction.y != 0) inputHandler.ActivateCommand(newMoveCommand, this);
+        if(_direction.x != 0 || _direction.y != 0) 
+        {
+            inputHandler.ActivateCommand(newMoveCommand, this);
+            movedThisTurn = true;
+        }
+    }
+
+    public void FillEmptyMove()
+    {
+        MoveUnitCommand newMoveCommand = new MoveUnitCommand(new Vector2(0, 0), false);
+        usedMoveCommands.Push(newMoveCommand);
+        Debug.Log($"Stack undo: [{newMoveCommand.direction.x} , {newMoveCommand.direction.y}] undo'd from {name}'s stack");
     }
 }
