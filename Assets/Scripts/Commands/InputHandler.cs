@@ -4,6 +4,7 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     public List<Object> objectsInScene;
+    [SerializeField] private StateMachine stateMachine;
     private void Update()
     {
         Command pressedButton = HandleInput();
@@ -12,8 +13,20 @@ public class InputHandler : MonoBehaviour
         {
             HandleMoveCommand(pressedButton);
         }
-    }
 
+        //Testing (cannot undo this in game)
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            foreach (Object _obj in objectsInScene)
+            {
+                if(_obj.objectType == ObjectType.objectTypes["Crate"])
+                {
+                    stateMachine.SetType(ObjectType.objectTypes["StartChar"] , _obj);
+                }
+            }
+        }
+        //Testing end
+    }
     private void HandleMoveCommand(Command _pressedButton)
     {
         TryInitiateMovement(_pressedButton);
@@ -26,7 +39,7 @@ public class InputHandler : MonoBehaviour
 
         foreach(Object _player in objectsInScene) 
         {
-            if(_player.state == ObjectState.You)
+            if(_player.objectProperties.Contains(ObjectProperty.objectProperties["You"]))
             {
                 if(_pressedButton is MoveUnitCommand moveCommand)
                 {
