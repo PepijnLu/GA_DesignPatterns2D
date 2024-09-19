@@ -1,30 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Noun : ObjectType
+//Here live all the object types
+
+//Base class for a word type (can create statements)
+public class Word : ObjectType
 {
-    public Noun(Object _obj) : base(_obj) {}
+    public Word() : base() 
+    {
+        if(ObjectProperty.objectProperties.ContainsKey(GetType().Name + "Property"))
+        {
+            properties.Add(ObjectProperty.objectProperties[GetType().Name + "Property"]);
+        }
+        else
+        {
+            Debug.Log($"Dictionary: {GetType().Name + "Property"} not found");
+        }
+    }
 }
 
-public class StartChar : Noun
+public class StartChar : ObjectType
 {
-    public StartChar(Object _obj) : base(_obj)
+    public StartChar() : base()
     {
         properties.Add(ObjectProperty.objectProperties["You"]);
     }
 }
-public class Wall : Noun
+public class Wall : ObjectType
 {
-    public Wall(Object _obj) : base(_obj)
+    public Wall() : base()
     {
         properties.Add(ObjectProperty.objectProperties["Stop"]);
     }
 }
 
-public class Crate : Noun
+public class Crate : ObjectType
 {
-    public Crate(Object _obj) : base(_obj)
+    public Crate() : base()
+    {
+        properties.Add(ObjectProperty.objectProperties["Push"]);
+    }
+}
+
+public class Flag : ObjectType
+{
+    public Flag() : base()
+    {
+        properties.Add(ObjectProperty.objectProperties["Win"]);
+    }
+}
+
+public class Is : Word
+{
+    public Is() : base()
+    {
+        properties.Add(ObjectProperty.objectProperties["Push"]);
+    }
+}
+
+public class Face : Word
+{
+    public Face() : base()
+    {
+        properties.Add(ObjectProperty.objectProperties["Push"]);
+    }
+}
+
+public class YouText : Word
+{
+    public YouText() : base()
     {
         properties.Add(ObjectProperty.objectProperties["Push"]);
     }

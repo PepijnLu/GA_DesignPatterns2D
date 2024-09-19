@@ -1,27 +1,45 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    [SerializeField] private Object placeholderObj;
     private void Awake()
     {
-        InitializeStates();
+        InitializeStates<ObjectProperty>();
+        InitializeStates<ObjectType>();
     }
 
-    private void InitializeStates()
+    //Initialize all substates that derive of a base class with type T
+    public void InitializeStates<T>()
     {
-        new You();
-        new Push();
-        new Stop();
-
-        new StartChar(placeholderObj);
-        new Wall(placeholderObj);
-        new Crate(placeholderObj);
+        var allSubTypes = System.Reflection.Assembly.GetAssembly(GetType()).GetTypes()
+            .Where(typeToCheck => 
+            {
+                while(typeToCheck.BaseType != null)
+                {
+                    if(typeToCheck.BaseType == typeof(T))
+                        return true;
+                    typeToCheck = typeToCheck.BaseType;
+                }
+                return false;
+            }).ToList();
+        foreach(var subType in allSubTypes)
+        {
+            Debug.Log("Activator: " + Activator.CreateInstance(subType));
+        }
     }
+
+    //Set the type of an object to a new tpye
     public void SetType(ObjectType state, Object _obj)
     {
+        if(!ObjectType.objectTypes.ContainsKey(state.GetType().Name))
+        {
+            state = new();
+        }
+        
         state.OnStateExit(_obj);
         _obj.objectType = state;
         state.OnStateEnter(_obj);
