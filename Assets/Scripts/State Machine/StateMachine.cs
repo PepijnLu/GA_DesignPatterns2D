@@ -16,9 +16,9 @@ public class StateMachine : MonoBehaviour
         new Push();
         new Stop();
 
-        new StartChar(placeholderObj);
-        new Wall(placeholderObj);
-        new Crate(placeholderObj);
+        new StartChar();
+        new Wall();
+        new Crate();
     }
     public void SetType(ObjectType state, Object _obj)
     {

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Operator : ObjectType
 {
-    public Operator(Object _obj) : base(_obj) {}
+    public Operator() : base() {}
 }

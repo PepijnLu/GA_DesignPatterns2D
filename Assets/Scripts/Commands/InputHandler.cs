@@ -98,5 +98,4 @@ public class InputHandler : MonoBehaviour
             _obj.movedThisTurn = false;
         }
     }
-    
 }

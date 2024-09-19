@@ -26,13 +26,7 @@ public class Object : Observer
     {
         if(startingType != null)
         {
-            ObjectType newState = ObjectType.objectTypes[startingType];
-            stateMachine.SetType(newState, this);
-
-            foreach(ObjectProperty _property in newState.properties)
-            {
-                objectProperties.Add(_property);
-            }
+            stateMachine.SetType(ObjectType.objectTypes[startingType], this);
         }
     }
     public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction, bool _justCheck)

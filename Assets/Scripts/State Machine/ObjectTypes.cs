@@ -8,9 +8,8 @@ public class ObjectType
     protected Object obj;
     public List<ObjectProperty> properties = new();
     public Sprite sprite;
-    public ObjectType(Object _obj)
+    public ObjectType()
     {
-        obj = _obj;
         sprite = Resources.Load<Sprite>(GetType().Name);
 
         if(!objectTypes.ContainsKey(GetType().Name))
