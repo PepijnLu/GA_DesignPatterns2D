@@ -2,16 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectType
+//State Machine pattern
+//The types an object can be (e.g. Crate, Flag, Face etc.)
+public class ObjectType : ObjectComponent
 {
-    public static Dictionary<string, ObjectType> objectTypes = new Dictionary<string, ObjectType>();
     protected Object obj;
     public List<ObjectProperty> properties = new();
+    public static Dictionary<string, ObjectType> objectTypes = new Dictionary<string, ObjectType>();
     public Sprite sprite;
     public ObjectType()
     {
+<<<<<<< HEAD
+=======
+        //Load the sprite from the resources folder
+>>>>>>> origin/main
         sprite = Resources.Load<Sprite>(GetType().Name);
 
+        //Add the instantiated class to the dictionary if it's not in it yet
         if(!objectTypes.ContainsKey(GetType().Name))
         {
             objectTypes.Add(GetType().Name, this);
@@ -19,6 +26,7 @@ public class ObjectType
         }
     }
 
+    //Logic for entering a state
     public void OnStateEnter(Object _obj)
     {
         _obj.spriteRenderer.sprite = sprite;
@@ -30,6 +38,7 @@ public class ObjectType
         }
     }
 
+    //Logic for exiting a state
     public void OnStateExit(Object _obj)
     {
         _obj.objectProperties.Clear();

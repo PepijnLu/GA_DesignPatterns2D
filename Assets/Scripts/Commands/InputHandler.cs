@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    public List<Object> objectsInScene;
+    [HideInInspector] public List<Object> objectsInScene;
     [SerializeField] private StateMachine stateMachine;
     private void Update()
     {
+        //Get what button is pressed this frame
         Command pressedButton = HandleInput();
-
+        
+        //If it's a move command, handle that
         if (pressedButton is MoveUnitCommand)
         {
             HandleMoveCommand(pressedButton);
@@ -29,8 +31,19 @@ public class InputHandler : MonoBehaviour
     }
     private void HandleMoveCommand(Command _pressedButton)
     {
+        //Try iniating the move command
         TryInitiateMovement(_pressedButton);
+
+        //For each object that didn't move, add a move command with a direction of [0, 0]
+        //This way the undo commands dont get desynced between objects
         FillEmptyMoves();
+
+        //For each object, check if they make a new statement
+        //Currently doesn't work, so feel free to ignore
+        foreach(Object _obj in objectsInScene)
+        {
+            new StatementsCheck(_obj.gameObject.transform.position, _obj, objectsInScene.Count);
+        }
     }
 
     private void TryInitiateMovement(Command _pressedButton)
@@ -39,22 +52,27 @@ public class InputHandler : MonoBehaviour
 
         foreach(Object _player in objectsInScene) 
         {
+            //Checks if commands should move the object or not
             if(_player.objectProperties.Contains(ObjectProperty.objectProperties["You"]))
             {
                 if(_pressedButton is MoveUnitCommand moveCommand)
                 {
+                    //Create the command
                     Command newCommand = new MoveUnitCommand(moveCommand.direction, false);
+
+                    //Check if the movement would actually move something
                     if (!canExecute) canExecute = ActivateCommand(newCommand, _player);
                     else ActivateCommand(newCommand, _player);
                 } 
             }
         }
 
+        //If the move wouldn't have moved something, don't add a move command with direction [0,0] to each objects stack
         if(!canExecute)
         {
-            foreach(Object obj in objectsInScene)
+            foreach(Object _obj in objectsInScene)
             {
-                obj.movedThisTurn = true;
+                _obj.movedThisTurn = true;
             }
             Debug.Log("No move happened");
         }
@@ -94,7 +112,10 @@ public class InputHandler : MonoBehaviour
     {
         foreach(Object _obj in objectsInScene)
         {
-            if(!_obj.movedThisTurn) _obj.FillEmptyMove();
+            if(!_obj.movedThisTurn) 
+            {
+                _obj.FillEmptyMove();
+            }
             _obj.movedThisTurn = false;
         }
     }
