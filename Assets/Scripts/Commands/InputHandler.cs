@@ -12,7 +12,7 @@ public class InputHandler : MonoBehaviour
     {
         foreach(Object _obj in objectsInScene)
         {
-            new StatementsCheck(_obj.gameObject.transform.position, _obj, objectsInScene);
+            new StatementCheckCommand(_obj.gameObject.transform.position, _obj, objectsInScene);
         }
     }
     private void Update()
@@ -49,7 +49,7 @@ public class InputHandler : MonoBehaviour
         }
         foreach(Object _obj in objectsInScene)
         {
-            new StatementsCheck(_obj.gameObject.transform.position, _obj, objectsInScene);
+            new StatementCheckCommand(_obj.gameObject.transform.position, _obj, objectsInScene);
         }
     }
 

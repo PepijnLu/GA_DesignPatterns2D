@@ -93,15 +93,15 @@ public class UndoCommand : Command
         }
         foreach(Object _obj in _objectsInScene)
         {
-            new StatementsCheck(_obj.gameObject.transform.position, _obj, _objectsInScene);
+            new StatementCheckCommand(_obj.gameObject.transform.position, _obj, _objectsInScene);
         }
     }
 }
 
 //Check the statements that are made by creating sentences with the word objects
-public class StatementsCheck : Command
+public class StatementCheckCommand : Command
 {
-    public StatementsCheck(Vector2 _newPosition, Object _obj, List<Object> _objectsInScene) : base()
+    public StatementCheckCommand(Vector2 _newPosition, Object _obj, List<Object> _objectsInScene) : base()
     {
         //Check if the object is a word
         Word thisObjectComponent = _obj.ReturnWordType(_obj);
