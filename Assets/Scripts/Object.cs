@@ -47,7 +47,7 @@ public class Object : Observer
     }
 
     //Event listener for returning the textobject in a statement
-    public override TextObject OnNotify(string _myEvent, Vector2 _newPosition, Object _otherObject)
+    public override Word OnNotify(string _myEvent, Vector2 _newPosition, Object _otherObject)
     {
         switch(_myEvent)
         {
@@ -56,7 +56,7 @@ public class Object : Observer
                 yPos = (int)transform.position.y;
                 if((_newPosition.x == xPos) && (_newPosition.y == yPos)) 
                 {
-                    TextObject thisObjectComponent = ReturnTextObject(this);
+                    Word thisObjectComponent = ReturnWordType(this);
                     return thisObjectComponent;
                 }
                 break;
@@ -66,12 +66,9 @@ public class Object : Observer
     }
 
     //Returns the object property that determines how it should behave in a statement
-    public TextObject ReturnTextObject(Object _obj)
+    public Word ReturnWordType(Object _obj)
     {
-        foreach(ObjectProperty _property in _obj.objectProperties)
-        {
-            if(_property is TextObject textObject) return textObject;
-        }
+        if(_obj is Word word) return word;
         return null;
     }
 

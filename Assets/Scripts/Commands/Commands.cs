@@ -43,11 +43,8 @@ public class MoveUnitCommand : Command
         {
             _obj.transform.position = newPosition;
 
-            foreach(ObjectProperty _textObj in _obj.objectProperties)
-            {
-                if(_textObj is TextObject) return true;
-            }
-            _obj.objectProperties.Clear();
+            //If a word moved, clear the properties of this object
+            //if(_obj.objectType is Word) _obj.objectProperties.Clear();
         }
 
         //Return if theyre allowed to move
@@ -100,17 +97,17 @@ public class StatementsCheck : Command
 {
     public StatementsCheck(Vector2 _newPosition, Object _obj, List<Object> _objectsInScene) : base()
     {
-        TextObject thisObjectComponent = _obj.ReturnTextObject(_obj);
+        Word thisObjectComponent = _obj.ReturnWordType(_obj);
         if(thisObjectComponent == null) return; 
 
-        List<TextObject> leftObjectsComponents = new();
-        List<TextObject> upObjectsComponents = new();
+        List<Word> leftObjectsComponents = new();
+        List<Word> upObjectsComponents = new();
         int amountsOfObjects = _objectsInScene.Count;
 
         for(int i = 1; i < amountsOfObjects; i++)
         {
-            TextObject leftObjectComponent = Notify("StatementCheck", _newPosition + new Vector2(-i, 0), _obj);
-            TextObject upObjectComponent = Notify("StatementCheck", _newPosition + new Vector2(0, i), _obj);
+            Word leftObjectComponent = Notify("StatementCheck", _newPosition + new Vector2(-i, 0), _obj);
+            Word upObjectComponent = Notify("StatementCheck", _newPosition + new Vector2(0, i), _obj);
             
             if(leftObjectComponent != null) leftObjectsComponents.Add(leftObjectComponent); 
             if(upObjectComponent != null) upObjectsComponents.Add(upObjectComponent);
@@ -124,17 +121,22 @@ public class StatementsCheck : Command
         if(upObjectsComponents.Count > 1) ActivateStatement(upObjectsComponents, thisObjectComponent, _objectsInScene);
     }
 
-    private void ActivateStatement(List<TextObject> _list, TextObject _thisTextObj, List<Object> _objectsInScene)
+    private void ActivateStatement(List<Word> _list, Object _objToCheck, List<Object> _objectsInScene)
     {
+
+        Word _thisTextObj;
+        if(_objToCheck is Word textObj) _thisTextObj = textObj;
+        else return;
+
         ObjectType typeToAffect;
         ObjectType typeToChange  = null;
         ObjectProperty propertyToChange = null;
 
         //Check if the first word in the sentence is a direct word
         if( (_thisTextObj.wordType != WordType.DirectOrSubjectWord) && (_thisTextObj.wordType != WordType.DirectWord)) return;
-   
+
         //Check if the second word is 'Is'
-        if(!(_list[0] is IsTextProperty)) return;
+        if(_list[0].wordType != WordType.OperatorWord) return;
 
         //Check if the third word is a subject word
         if( (_list[1].wordType != WordType.DirectOrSubjectWord) && (_list[1].wordType != WordType.SubjectWord)) return;
@@ -151,18 +153,16 @@ public class StatementsCheck : Command
             typeToChange = ObjectType.objectTypes[_thisTextObj.typeToAffect];
         }
 
-
         //If the propertyToChange is a direct word, just change the property 
         if(propertyToChange != null)
         {
             foreach(Object _obj in _objectsInScene)
             {
                 if(_obj.objectType == typeToAffect) 
-                {
-                    _obj.objectProperties.Clear();
+                { 
+                    Debug.Log($"Property Changed: {_obj.name} , {propertyToChange.GetType().Name}");
                     _obj.objectProperties.Add(propertyToChange);
-
-                    Debug.Log($"Properties Cleared And Changed: {_obj.name} , {propertyToChange.GetType().Name}");    
+                    //Debug.Log($"Properties Cleared And Changed: {_obj.name} , {propertyToChange.GetType().Name}");    
                 }
             }   
         }
@@ -174,18 +174,18 @@ public class StatementsCheck : Command
                 if(_obj.objectType == typeToAffect) 
                 {
                     _obj.stateMachine.SetType(typeToChange, _obj);
-                    Debug.Log($"Properties Cleared And Changed: {_obj.name} , {propertyToChange.GetType().Name}");    
+                    //Debug.Log($"Properties Cleared And Changed: {_obj.name} , {propertyToChange.GetType().Name}");    
                 }
             }
         }
     }
 
     //Overload OnNotify method for handling checking statements
-    protected override TextObject Notify(string _myEvent, Vector2 _newPosition, Object _otherObject)
+    protected override Word Notify(string _myEvent, Vector2 _newPosition, Object _otherObject)
     {
         foreach(Observer observer in observers)
         {
-            TextObject textObject =  observer.OnNotify(_myEvent, _newPosition, _otherObject);
+            Word textObject = observer.OnNotify(_myEvent, _newPosition, _otherObject);
             if(textObject != null) return textObject;
         }
         return null;

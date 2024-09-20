@@ -15,6 +15,6 @@ public class Observer : MonoBehaviour
     virtual public bool OnNotify(string _myEvent, Vector2 newPosition, Vector2 _direction, Object _otherObject, bool _justCheck) {throw new System.Exception("Base notify called");}
 
     //Overload OnNotify method for handling checking statements
-    virtual public TextObject OnNotify(string _myEvent, Vector2 newPosition, Object _otherObject) {throw new System.Exception("Base notify called");}
+    virtual public Word OnNotify(string _myEvent, Vector2 newPosition, Object _otherObject) {throw new System.Exception("Base notify called");}
 }
 

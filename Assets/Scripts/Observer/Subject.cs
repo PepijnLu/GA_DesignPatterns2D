@@ -21,5 +21,5 @@ public class Subject
     protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _otherObject, bool _justCheck) {throw new System.Exception("Base notify called");}
 
     //Overload for passing through parameter necessary for checking statements
-    protected virtual TextObject Notify(string _myEvent, Vector2 _newPosition, Object _otherObject) {throw new System.Exception("Base notify called");}
+    protected virtual Word Notify(string _myEvent, Vector2 _newPosition, Object _otherObject) {throw new System.Exception("Base notify called");}
 }
