@@ -11,7 +11,7 @@ public class StateMachine : MonoBehaviour
     }
 
     //Initialize all subclasses that derive of a base class with type T
-    public void InitializeStates<T>()
+    private void InitializeStates<T>()
     {
         var allSubTypes = System.Reflection.Assembly.GetAssembly(GetType()).GetTypes()
             .Where(typeToCheck => 
