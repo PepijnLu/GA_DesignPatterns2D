@@ -4,13 +4,6 @@ using UnityEngine;
 //Command pattern
 //This script holds the commands that can be executed 
 
-
-//Command that does nothing as a placeholder
-public class NullCommand : Command
-{
-    public override bool Execute(Object _obj, bool _isUndo) {return true;}
-}
-
 //Move a unit
 public class MoveUnitCommand : Command
 {
