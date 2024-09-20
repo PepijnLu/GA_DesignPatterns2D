@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //State Machine pattern
 //The types an object can be (e.g. Crate, Flag, Face etc.)
-public class ObjectType : ObjectComponent
+public class ObjectType
 {
     protected Object obj;
     public List<ObjectProperty> properties = new();
@@ -12,10 +11,7 @@ public class ObjectType : ObjectComponent
     public Sprite sprite;
     public ObjectType()
     {
-<<<<<<< HEAD
-=======
         //Load the sprite from the resources folder
->>>>>>> origin/main
         sprite = Resources.Load<Sprite>(GetType().Name);
 
         //Add the instantiated class to the dictionary if it's not in it yet

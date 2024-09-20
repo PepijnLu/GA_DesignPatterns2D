@@ -13,16 +13,23 @@ public enum WordType
 public class TextObject : ObjectProperty
 {
     public WordType wordType;
+    public string typeToAffect;
+    public string propertyToChange;
 
-    public TextObject(/*WordType _wordType, ObjectComponent _component*/) : base() 
+    public TextObject() : base() 
     {
-        //wordType = _wordType;
+        string thisName = GetType().Name;
+        if(thisName.Contains("TextProperty"))
+        {
+            typeToAffect = thisName.Replace("TextProperty", "");
+            propertyToChange = thisName.Replace("TextProperty", "");
+        }
     }
 }
 
-public class FaceProperty : TextObject
+public class FaceTextProperty : TextObject
 {
-    public FaceProperty() : base()
+    public FaceTextProperty() : base()
     {
         wordType = WordType.DirectOrSubjectWord;
     }
@@ -34,9 +41,9 @@ public class CrateProperty : TextObject
         wordType = WordType.DirectOrSubjectWord;
     }
 }
-public class IsProperty : TextObject
+public class IsTextProperty : TextObject
 {
-    public IsProperty() : base()
+    public IsTextProperty() : base()
     {
         wordType = WordType.OperatorWord;
     }
@@ -49,6 +56,55 @@ public class YouTextProperty : TextObject
         wordType = WordType.DirectWord;
     }
 }
+
+public class CrateTextProperty : TextObject
+{
+    public CrateTextProperty() : base()
+    {
+        wordType = WordType.DirectOrSubjectWord;
+    }
+}
+
+public class StopTextProperty : TextObject
+{
+    public StopTextProperty() : base()
+    {
+        wordType = WordType.DirectWord;
+    }
+}
+
+public class PushTextProperty : TextObject
+{
+    public PushTextProperty() : base()
+    {
+        wordType = WordType.DirectWord;
+    }
+}
+
+public class WallTextProperty : TextObject
+{
+    public WallTextProperty() : base()
+    {
+        wordType = WordType.DirectOrSubjectWord;
+    }
+}
+
+public class FlagTextProperty : TextObject
+{
+    public FlagTextProperty() : base()
+    {
+        wordType = WordType.DirectOrSubjectWord;
+    }
+}
+
+public class WinTextProperty : TextObject
+{
+    public WinTextProperty() : base()
+    {
+        wordType = WordType.DirectWord;
+    }
+}
+
 
 
 

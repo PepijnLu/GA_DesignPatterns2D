@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //State Machine pattern
 //The different kind of properties an object can have (e.g. Push, Stop, Win etc.)
-public class ObjectProperty : ObjectComponent
+public class ObjectProperty
 {
     public static Dictionary<string, ObjectProperty> objectProperties = new Dictionary<string, ObjectProperty>();
     public List<ObjectProperty> excludedProperties = new();

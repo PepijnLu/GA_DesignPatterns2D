@@ -3,7 +3,7 @@ using UnityEngine;
 public class Object : Observer
 {
     [SerializeField] public InputHandler inputHandler;
-    [SerializeField] private StateMachine stateMachine;
+    [SerializeField] public StateMachine stateMachine;
     [SerializeField] private string startingType;
     private int xPos, yPos;
     public Stack<MoveUnitCommand> usedMoveCommands = new();
@@ -56,7 +56,8 @@ public class Object : Observer
                 yPos = (int)transform.position.y;
                 if((_newPosition.x == xPos) && (_newPosition.y == yPos)) 
                 {
-                    return HandleStatementCheck(_otherObject);
+                    TextObject thisObjectComponent = ReturnTextObject(this);
+                    return thisObjectComponent;
                 }
                 break;
         }
@@ -72,39 +73,6 @@ public class Object : Observer
             if(_property is TextObject textObject) return textObject;
         }
         return null;
-    }
-
-    //Handles the logic for determining if the object is part of a statement 
-    //Doesn't work yet so feel free to ignore
-    private TextObject HandleStatementCheck(Object _otherObject)
-    {
-        Debug.Log("Handle Statement");
-
-        TextObject thisObjectComponent = ReturnTextObject(this);
-        return thisObjectComponent;
-
-        TextObject _otherObjectComponent = ReturnTextObject(_otherObject);
-        WordType thisObjectWordType, otherObjectWordType;
-
-        if(thisObjectComponent == null || _otherObjectComponent == null) return null;
-
-        thisObjectWordType = thisObjectComponent.wordType;
-        otherObjectWordType = _otherObjectComponent.wordType;
-        
-        if(thisObjectWordType != WordType.OperatorWord)
-        {
-            if(otherObjectWordType == WordType.OperatorWord) return null;
-            else
-            {
-                if(thisObjectWordType == WordType.SubjectWord) return null;
-                return thisObjectComponent;
-            }
-        }
-        else
-        {
-            if(otherObjectWordType == WordType.DirectWord) return null;
-            return thisObjectComponent;
-        }
     }
 
     //Function that handles collision and returns if it's possible to move

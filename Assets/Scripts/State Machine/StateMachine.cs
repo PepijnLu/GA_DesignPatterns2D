@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,18 +10,9 @@ public class StateMachine : MonoBehaviour
         InitializeStates<ObjectType>();
     }
 
-    //Initialize all substates that derive of a base class with type T
+    //Initialize all subclasses that derive of a base class with type T
     public void InitializeStates<T>()
     {
-<<<<<<< HEAD
-        new You();
-        new Push();
-        new Stop();
-
-        new StartChar();
-        new Wall();
-        new Crate();
-=======
         var allSubTypes = System.Reflection.Assembly.GetAssembly(GetType()).GetTypes()
             .Where(typeToCheck => 
             {
@@ -39,7 +28,6 @@ public class StateMachine : MonoBehaviour
         {
             Debug.Log("Activator: " + Activator.CreateInstance(subType));
         }
->>>>>>> origin/main
     }
 
     //Set the type of an object to a new tpye

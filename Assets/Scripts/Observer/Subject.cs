@@ -17,27 +17,9 @@ public class Subject
         }
     }
 
-    //Overload for passing through parameter necessary for checking collision (move implentation to command!!)
-    protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _otherObject, bool _justCheck)
-    {
-        bool moveIsAllowed;
+    //Overload for passing through parameter necessary for checking collision
+    protected virtual bool Notify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _otherObject, bool _justCheck) {throw new System.Exception("Base notify called");}
 
-        foreach(Observer observer in observers)
-        {
-            moveIsAllowed = observer.OnNotify(_myEvent, _newPosition, _direction, _otherObject, _justCheck);
-            if(!moveIsAllowed) return false;
-        }
-        
-        return true;
-    }
-
-    //Overload for passing through parameter necessary for checking statements (move implentation to command!!)
-    protected virtual TextObject Notify(string _myEvent, Vector2 _newPosition, Object _otherObject)
-    {
-        foreach(Observer observer in observers)
-        {
-            observer.OnNotify(_myEvent, _newPosition, _otherObject);
-        }
-        return null;
-    }
+    //Overload for passing through parameter necessary for checking statements
+    protected virtual TextObject Notify(string _myEvent, Vector2 _newPosition, Object _otherObject) {throw new System.Exception("Base notify called");}
 }

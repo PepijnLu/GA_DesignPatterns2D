@@ -8,8 +8,13 @@ public class Observer : MonoBehaviour
     {
         Subject.observers.Add(this);
     }
+    //Base OnNotify method
     virtual public void OnNotify(string _myEvent) {}
-    virtual public bool OnNotify(string _myEvent, Vector2 newPosition, Vector2 _direction, Object _otherObject, bool _justCheck) {return true;}
-    virtual public TextObject OnNotify(string _myEvent, Vector2 newPosition, Object _otherObject) {return null;}
+
+    //Overload OnNotify method for handling collision
+    virtual public bool OnNotify(string _myEvent, Vector2 newPosition, Vector2 _direction, Object _otherObject, bool _justCheck) {throw new System.Exception("Base notify called");}
+
+    //Overload OnNotify method for handling checking statements
+    virtual public TextObject OnNotify(string _myEvent, Vector2 newPosition, Object _otherObject) {throw new System.Exception("Base notify called");}
 }
 

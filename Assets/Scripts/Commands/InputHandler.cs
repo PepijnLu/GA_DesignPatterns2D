@@ -5,6 +5,18 @@ public class InputHandler : MonoBehaviour
 {
     [HideInInspector] public List<Object> objectsInScene;
     [SerializeField] private StateMachine stateMachine;
+
+    private void Start()
+    {
+        StartCoroutine(ExecuteAfterStart());
+    }
+    private void  InitializeStatements()
+    {
+        foreach(Object _obj in objectsInScene)
+        {
+            new StatementsCheck(_obj.gameObject.transform.position, _obj, objectsInScene);
+        }
+    }
     private void Update()
     {
         //Get what button is pressed this frame
@@ -15,19 +27,6 @@ public class InputHandler : MonoBehaviour
         {
             HandleMoveCommand(pressedButton);
         }
-
-        //Testing (cannot undo this in game)
-        if(Input.GetKeyDown(KeyCode.Tab))
-        {
-            foreach (Object _obj in objectsInScene)
-            {
-                if(_obj.objectType == ObjectType.objectTypes["Crate"])
-                {
-                    stateMachine.SetType(ObjectType.objectTypes["StartChar"] , _obj);
-                }
-            }
-        }
-        //Testing end
     }
     private void HandleMoveCommand(Command _pressedButton)
     {
@@ -42,7 +41,7 @@ public class InputHandler : MonoBehaviour
         //Currently doesn't work, so feel free to ignore
         foreach(Object _obj in objectsInScene)
         {
-            new StatementsCheck(_obj.gameObject.transform.position, _obj, objectsInScene.Count);
+            new StatementsCheck(_obj.gameObject.transform.position, _obj, objectsInScene);
         }
     }
 
@@ -118,5 +117,11 @@ public class InputHandler : MonoBehaviour
             }
             _obj.movedThisTurn = false;
         }
+    }
+
+    System.Collections.IEnumerator ExecuteAfterStart()
+    {
+        yield return null;
+        InitializeStatements();
     }
 }
