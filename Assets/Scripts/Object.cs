@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 public class Object : Observer
 {
-    [SerializeField] public InputHandler inputHandler;
-    [SerializeField] public StateMachine stateMachine;
+    [SerializeField] private InputHandler inputHandler;
+    [SerializeField] private StateMachine stateMachine;
     [SerializeField] private string startingType;
-    private int xPos, yPos;
     public Stack<MoveUnitCommand> usedMoveCommands = new();
     public List<ObjectProperty> objectProperties = new();
-    public bool movedThisTurn;
     public ObjectType objectType;
     public SpriteRenderer spriteRenderer;
+    public bool movedThisTurn;
+    private int xPos, yPos;
 
     protected override void Start()
     {
@@ -20,7 +21,7 @@ public class Object : Observer
         InitializeState();
     }
 
-    void InitializeState()
+    private void InitializeState()
     {
         //Initialize an object using the startingState you pass through in the inspector
         if(startingType != null)
@@ -28,6 +29,13 @@ public class Object : Observer
             stateMachine.SetType(ObjectType.objectTypes[startingType], this);
         }
     }
+
+    //For commands that have a reference to object but not to statemachine
+    public void ActivateStateMachine(ObjectType _state)
+    {
+        stateMachine.SetType(_state, this);
+    }
+
     //Event listener for returning bool for possible movement
     public override bool OnNotify(string _myEvent, Vector2 _newPosition, Vector2 _direction, Object _otherObject, bool _justCheck)
     {
@@ -82,7 +90,7 @@ public class Object : Observer
                 return _property.HandleCollision(_direction, this, _otherObject);
             }
         }
-
+        //If nothing handles collision, there is no collision
         return true;
     }
 

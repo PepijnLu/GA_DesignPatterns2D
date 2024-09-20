@@ -5,10 +5,8 @@ using UnityEngine;
 //The types an object can be (e.g. Crate, Flag, Face etc.)
 public class ObjectType
 {
-    protected Object obj;
-    public List<ObjectProperty> properties = new();
     public static Dictionary<string, ObjectType> objectTypes = new Dictionary<string, ObjectType>();
-    public Sprite sprite;
+    private Sprite sprite;
     public ObjectType()
     {
         //Load the sprite from the resources folder
@@ -26,12 +24,6 @@ public class ObjectType
     public void OnStateEnter(Object _obj)
     {
         _obj.spriteRenderer.sprite = sprite;
-
-        foreach(ObjectProperty _property in properties)
-        {
-            _obj.objectProperties.Add(_property);
-            Debug.Log("property added " + _property.GetType().Name);
-        }
     }
 
     //Logic for exiting a state
@@ -40,5 +32,12 @@ public class ObjectType
         _obj.objectProperties.Clear();
     }
 }
+
+//Types of different objects that are not text
+public class Face : ObjectType {}
+public class Wall : ObjectType {}
+public class Crate : ObjectType {}
+public class Flag : ObjectType {}
+public class WordObjectType : ObjectType {}
 
 

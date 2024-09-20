@@ -4,10 +4,6 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     [HideInInspector] public List<Object> objectsInScene;
-    [SerializeField] private StateMachine stateMachine;
-    public static List<Dictionary<Object, ObjectProperty>> lastSuccesfulStatements = new();
-    public static List<Dictionary<Object, ObjectProperty>> currentSuccesfulStatements = new();
-
     private void Start()
     {
         StartCoroutine(ExecuteAfterStart());
@@ -41,6 +37,12 @@ public class InputHandler : MonoBehaviour
 
         //For each object, check if they make a new statement
         //Currently doesn't work, so feel free to ignore
+        RecheckStatements();
+        
+    }
+
+    void RecheckStatements()
+    {
         foreach(Object _obj in objectsInScene)
         {
             if (_obj is not Word) _obj.objectProperties.Clear();

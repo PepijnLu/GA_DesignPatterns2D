@@ -5,7 +5,7 @@ using UnityEngine;
 //This script holds the commands that can be executed 
 
 
-//Command that does nothing
+//Command that does nothing as a placeholder
 public class NullCommand : Command
 {
     public override bool Execute(Object _obj, bool _isUndo) {return true;}
@@ -42,9 +42,6 @@ public class MoveUnitCommand : Command
         if(moveIsAllowed && !justCheck) 
         {
             _obj.transform.position = newPosition;
-
-            //If a word moved, clear the properties of this object
-            //if(_obj.objectType is Word) _obj.objectProperties.Clear();
         }
 
         //Return if theyre allowed to move
@@ -74,7 +71,7 @@ public class MoveUnitCommand : Command
     }
 }
 
-//The undo command
+//The undo command (It cannot undo type changes of objects as a result of changed statements yet)
 public class UndoCommand : Command
 {
     public UndoCommand(List<Object> _objectsInScene) : base()
@@ -88,22 +85,34 @@ public class UndoCommand : Command
             }
             else Debug.Log($"{_obj.name} has nothing to undo");
         }
+
+        //Recheck the statements after undoing to match how it was before
+        foreach(Object _obj in _objectsInScene)
+        {
+            if (_obj is not Word) _obj.objectProperties.Clear();
+        }
+        foreach(Object _obj in _objectsInScene)
+        {
+            new StatementsCheck(_obj.gameObject.transform.position, _obj, _objectsInScene);
+        }
     }
 }
 
-//Check the statements that are made by creating sentences with the word objects.
-//Full disclosure: this isn't *full* functional but hey we don't get graded on functionality so don't be mad
+//Check the statements that are made by creating sentences with the word objects
 public class StatementsCheck : Command
 {
     public StatementsCheck(Vector2 _newPosition, Object _obj, List<Object> _objectsInScene) : base()
     {
+        //Check if the object is a word
         Word thisObjectComponent = _obj.ReturnWordType(_obj);
         if(thisObjectComponent == null) return; 
 
+        //Create new lists for the words in the statement
         List<Word> leftObjectsComponents = new();
         List<Word> upObjectsComponents = new();
         int amountsOfObjects = _objectsInScene.Count;
 
+        //Check if and how many words are either left or up of this word, and add those to their respective lists
         for(int i = 1; i < amountsOfObjects; i++)
         {
             Word leftObjectComponent = Notify("StatementCheck", _newPosition + new Vector2(-i, 0), _obj);
@@ -115,19 +124,16 @@ public class StatementsCheck : Command
             if(leftObjectComponent == null && upObjectComponent == null) break;
         }
 
+        //Check if the list isn't 0
         if(leftObjectsComponents.Count == 0 && upObjectsComponents.Count == 0) return;
 
+        //Activate the statements using the generated lists
         if(leftObjectsComponents.Count > 1) ActivateStatement(leftObjectsComponents, thisObjectComponent, _objectsInScene);
         if(upObjectsComponents.Count > 1) ActivateStatement(upObjectsComponents, thisObjectComponent, _objectsInScene);
     }
 
-    private void ActivateStatement(List<Word> _list, Object _objToCheck, List<Object> _objectsInScene)
+    private void ActivateStatement(List<Word> _list, Word _thisTextObj, List<Object> _objectsInScene)
     {
-
-        Word _thisTextObj;
-        if(_objToCheck is Word textObj) _thisTextObj = textObj;
-        else return;
-
         ObjectType typeToAffect;
         ObjectType typeToChange  = null;
         ObjectProperty propertyToChange = null;
@@ -142,15 +148,16 @@ public class StatementsCheck : Command
         if( (_list[1].wordType != WordType.DirectOrSubjectWord) && (_list[1].wordType != WordType.SubjectWord)) return;
 
         //Get the type that needs to be affected and the property that needs to be changes
-        typeToAffect = ObjectType.objectTypes[_list[1].typeToAffect];
+        typeToAffect = ObjectType.objectTypes[_list[1].typeOrProperty];
 
+        //Get the right variable based on what kind of word this is
         if(_thisTextObj.wordType == WordType.DirectWord) 
         {
-            propertyToChange = ObjectProperty.objectProperties[_thisTextObj.propertyToChange];
+            propertyToChange = ObjectProperty.objectProperties[_thisTextObj.typeOrProperty];
         }
         else
         {
-            typeToChange = ObjectType.objectTypes[_thisTextObj.typeToAffect];
+            typeToChange = ObjectType.objectTypes[_thisTextObj.typeOrProperty];
         }
 
         //If the propertyToChange is a direct word, just change the property 
@@ -161,8 +168,7 @@ public class StatementsCheck : Command
                 if(_obj.objectType == typeToAffect) 
                 { 
                     Debug.Log($"Property Changed: {_obj.name} , {propertyToChange.GetType().Name}");
-                    _obj.objectProperties.Add(propertyToChange);
-                    //Debug.Log($"Properties Cleared And Changed: {_obj.name} , {propertyToChange.GetType().Name}");    
+                    _obj.objectProperties.Add(propertyToChange);  
                 }
             }   
         }
@@ -173,8 +179,7 @@ public class StatementsCheck : Command
             {
                 if(_obj.objectType == typeToAffect) 
                 {
-                    _obj.stateMachine.SetType(typeToChange, _obj);
-                    //Debug.Log($"Properties Cleared And Changed: {_obj.name} , {propertyToChange.GetType().Name}");    
+                    _obj.ActivateStateMachine(typeToChange);   
                 }
             }
         }
@@ -190,6 +195,4 @@ public class StatementsCheck : Command
         }
         return null;
     }   
-
-    
 }

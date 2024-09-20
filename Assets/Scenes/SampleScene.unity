@@ -155,8 +155,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &39975309
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -239,8 +239,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!1 &69637486
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +358,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -385,12 +385,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 0
+  movedThisTurn: 0
   textField: Crate
-  typeToAffect: 
   propertyToChange: 
+  wordType: 0
+  typeOrProperty: 
 --- !u!1 &177632758
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,7 +464,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -491,12 +491,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 3
+  movedThisTurn: 0
   textField: Is
-  typeToAffect: 
   propertyToChange: 
+  wordType: 3
+  typeOrProperty: 
 --- !u!1 &223785605
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,8 +530,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &223785607
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -672,7 +672,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -699,12 +699,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 3
+  movedThisTurn: 0
   textField: Is
-  typeToAffect: 
   propertyToChange: 
+  wordType: 3
+  typeOrProperty: 
 --- !u!1 &277893410
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,8 +738,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &277893412
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -907,12 +907,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 2
+  movedThisTurn: 0
   textField: You
-  typeToAffect: 
   propertyToChange: 
+  wordType: 2
+  typeOrProperty: 
 --- !u!1 &335703730
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,8 +946,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &335703732
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1030,8 +1030,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!1 &454679271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,7 +1105,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1132,12 +1132,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 2
+  movedThisTurn: 0
   textField: Stop
-  typeToAffect: 
   propertyToChange: 
+  wordType: 2
+  typeOrProperty: 
 --- !u!1 &467307177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,12 +1238,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 0
+  movedThisTurn: 0
   textField: Face
-  typeToAffect: 
   propertyToChange: 
+  wordType: 0
+  typeOrProperty: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1496,8 +1496,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &665924416
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1595,7 +1595,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsInScene: []
-  stateMachine: {fileID: 1556998335}
 --- !u!4 &874343046
 Transform:
   m_ObjectHideFlags: 0
@@ -1684,7 +1683,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1711,12 +1710,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 2
+  movedThisTurn: 0
   textField: Push
-  typeToAffect: 
   propertyToChange: 
+  wordType: 2
+  typeOrProperty: 
 --- !u!114 &1043192036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1732,8 +1731,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!114 &1084078251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1749,8 +1748,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!114 &1126050675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1766,8 +1765,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!114 &1144889813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1783,8 +1782,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!1 &1165123339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1885,8 +1884,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Face
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!114 &1203073320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1902,8 +1901,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!114 &1329341297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1919,8 +1918,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!114 &1333893232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1936,8 +1935,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!1 &1333925590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2038,12 +2037,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 3
+  movedThisTurn: 0
   textField: Is
-  typeToAffect: 
   propertyToChange: 
+  wordType: 3
+  typeOrProperty: 
 --- !u!1 &1514695604
 GameObject:
   m_ObjectHideFlags: 0
@@ -2077,8 +2076,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &1514695606
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2219,7 +2218,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2246,12 +2245,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 3
+  movedThisTurn: 0
   textField: Is
-  typeToAffect: 
   propertyToChange: 
+  wordType: 3
+  typeOrProperty: 
 --- !u!1 &1529056626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2352,12 +2351,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 0
+  movedThisTurn: 0
   textField: Crate
-  typeToAffect: 
   propertyToChange: 
+  wordType: 0
+  typeOrProperty: 
 --- !u!1 &1556998334
 GameObject:
   m_ObjectHideFlags: 0
@@ -2417,8 +2416,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!1 &1612856603
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,8 +2451,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &1612856605
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2554,8 +2553,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &1630886595
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2696,7 +2695,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2723,12 +2722,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 0
+  movedThisTurn: 0
   textField: Wall
-  typeToAffect: 
   propertyToChange: 
+  wordType: 0
+  typeOrProperty: 
 --- !u!1 &1690489020
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,8 +2761,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Face
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &1690489022
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2904,7 +2903,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2931,12 +2930,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 2
+  movedThisTurn: 0
   textField: Win
-  typeToAffect: 
   propertyToChange: 
+  wordType: 2
+  typeOrProperty: 
 --- !u!1 &1827817438
 GameObject:
   m_ObjectHideFlags: 0
@@ -3054,7 +3053,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3081,12 +3080,12 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: WordObjectType
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
-  wordType: 0
+  movedThisTurn: 0
   textField: Flag
-  typeToAffect: 
   propertyToChange: 
+  wordType: 0
+  typeOrProperty: 
 --- !u!1 &1933446341
 GameObject:
   m_ObjectHideFlags: 0
@@ -3120,8 +3119,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Flag
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &1933446343
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3222,8 +3221,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &1950862016
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3324,8 +3323,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &1951304450
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3426,8 +3425,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Crate
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &2015975350
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3528,8 +3527,8 @@ MonoBehaviour:
   inputHandler: {fileID: 874343045}
   stateMachine: {fileID: 1556998335}
   startingType: Wall
-  movedThisTurn: 0
   spriteRenderer: {fileID: 0}
+  movedThisTurn: 0
 --- !u!212 &2073031485
 SpriteRenderer:
   m_ObjectHideFlags: 0

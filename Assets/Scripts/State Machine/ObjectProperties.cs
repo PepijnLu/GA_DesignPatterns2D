@@ -7,7 +7,6 @@ using UnityEngine;
 public class ObjectProperty
 {
     public static Dictionary<string, ObjectProperty> objectProperties = new Dictionary<string, ObjectProperty>();
-    public List<ObjectProperty> excludedProperties = new();
 
     //This bool checks if the property is one that handles the collision of the object
     public bool handlesCollision;
